@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import ExpenseList from "./components/ExpenseList.vue";
+import { useBalanceStore } from "./stores/balanceStore";
+
+const balanceStore = useBalanceStore();
 </script>
 
 <template>
   <header>
     <nav>
-      <h1>Finance Tracker</h1>
-      <h3>balance: 0$</h3>
+      <div class="nav-group">
+        <h1>Finance Tracker</h1>
+        <a href="#">dashboard</a>
+      </div>
+      <h3>
+        balance <span> {{ balanceStore.balance }}$ </span>
+      </h3>
     </nav>
   </header>
   <main>
@@ -23,7 +31,26 @@ nav {
   align-items: baseline;
 }
 
-h1, h3 {
+.nav-group {
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+}
+
+h1,
+h3 {
   margin: 0;
+  color: rgb(89, 88, 88);
+  text-transform: capitalize;
+}
+
+span {
+  font-size: 2.5rem;
+  color: black;
+}
+
+a {
+  text-decoration: none;
+  color: grey;
 }
 </style>
