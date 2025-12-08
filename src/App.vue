@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { ref } from "vue";
+import AddExpenseForm from "./components/AddExpenseForm.vue";
 import ExpenseList from "./components/ExpenseList.vue";
 import { useBalanceStore } from "./stores/balanceStore";
 
 const balanceStore = useBalanceStore();
+
+const isAddFormOpen = ref(false);
 </script>
 
 <template>
@@ -18,7 +22,12 @@ const balanceStore = useBalanceStore();
     </nav>
   </header>
   <main>
+    <div class="expenses-list-header">
+      <h3>expenses</h3>
+      <button @click="isAddFormOpen = !isAddFormOpen">add</button>
+    </div>
     <ExpenseList />
+    <AddExpenseForm v-show="isAddFormOpen" />
   </main>
   <footer></footer>
 </template>
@@ -52,5 +61,22 @@ span {
 a {
   text-decoration: none;
   color: grey;
+}
+
+h3 {
+  text-align: center;
+}
+
+.expenses-list-header {
+  display: flex;
+  gap: 2ch;
+  justify-self: center;
+  align-self: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
 }
 </style>

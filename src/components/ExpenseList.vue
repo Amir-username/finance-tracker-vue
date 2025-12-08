@@ -7,7 +7,6 @@ const expensesStore = useExpensesStore();
 
 <template>
   <section>
-    <h3>expenses</h3>
     <ul>
       <ExpenseItem
         v-for="expense in expensesStore.expensesState"
@@ -19,9 +18,7 @@ const expensesStore = useExpensesStore();
 </template>
 
 <style scoped>
-h3 {
-  text-align: center;
-}
+
 ul {
   list-style: none;
   display: grid;
