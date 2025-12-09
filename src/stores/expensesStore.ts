@@ -2,8 +2,12 @@ import { defineStore } from "pinia";
 import type { Expense } from "../models/Expense";
 import { ref } from "vue";
 
+function saveExpenses(expenses: Expense[]) {
+  localStorage.setItem("expenses", JSON.stringify(expenses));
+}
+
 export const useExpensesStore = defineStore("expenses", () => {
-  const expensesState = ref<Expense[] | undefined>(undefined);
+  const expensesState = ref<Expense[] | undefined>();
 
   const localExpenses = localStorage.getItem("expenses");
 
@@ -12,9 +16,10 @@ export const useExpensesStore = defineStore("expenses", () => {
   }
 
   const addExpense = (expense: Expense) => {
-    if (expensesState.value)
+    if (expensesState.value) {
       expensesState.value = [...expensesState.value, expense];
-    localStorage.setItem("expenses", JSON.stringify(expensesState.value));
+      saveExpenses(expensesState.value);
+    }
   };
 
   const removeExpense = (expenseID: number) => {
@@ -22,7 +27,7 @@ export const useExpensesStore = defineStore("expenses", () => {
       expensesState.value = expensesState.value.filter((ex) => {
         return ex.id !== expenseID;
       });
-      localStorage.setItem("expenses", JSON.stringify(expensesState.value));
+      saveExpenses(expensesState.value);
     }
   };
 
@@ -36,7 +41,7 @@ export const useExpensesStore = defineStore("expenses", () => {
           ...newExpense,
         };
       }
-      localStorage.setItem("expenses", JSON.stringify(expensesState.value));
+      saveExpenses(expensesState.value);
     }
   };
 
