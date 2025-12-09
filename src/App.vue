@@ -6,9 +6,15 @@ import { useBalanceStore } from "./stores/balanceStore";
 
 onMounted(() => {
   const localBalance = localStorage.getItem("balance");
-  
+
   if (!localBalance) {
     localStorage.setItem("balance", JSON.stringify(0));
+  }
+
+  const localExpenses = localStorage.getItem("expenses");
+
+  if (!localExpenses) {
+    localStorage.setItem("expenses", JSON.stringify([]));
   }
 });
 

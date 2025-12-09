@@ -2,54 +2,41 @@ import { defineStore } from "pinia";
 import type { Expense } from "../models/Expense";
 import { ref } from "vue";
 
-const expenses: Expense[] = [
-  {
-    id: 1,
-    amount: 20,
-    date: Date.now(),
-    category: "food",
-  },
-  {
-    id: 2,
-    amount: 1,
-    date: Date.now(),
-    category: "train",
-  },
-  {
-    id: 3,
-    amount: 5,
-    date: Date.now(),
-    category: "coffie",
-  },
-  {
-    id: 4,
-    amount: 150,
-    date: Date.now(),
-    category: "books",
-  },
-];
-
 export const useExpensesStore = defineStore("expenses", () => {
-  const expensesState = ref<Expense[]>(expenses);
+  const expensesState = ref<Expense[] | undefined>(undefined);
+
+  const localExpenses = localStorage.getItem("expenses");
+
+  if (localExpenses) {
+    expensesState.value = JSON.parse(localExpenses);
+  }
 
   const addExpense = (expense: Expense) => {
-    expensesState.value = [...expensesState.value, expense];
+    if (expensesState.value)
+      expensesState.value = [...expensesState.value, expense];
+    localStorage.setItem("expenses", JSON.stringify(expensesState.value));
   };
 
   const removeExpense = (expenseID: number) => {
-    expensesState.value = expensesState.value.filter((ex) => {
-      return ex.id !== expenseID;
-    });
+    if (expensesState.value) {
+      expensesState.value = expensesState.value.filter((ex) => {
+        return ex.id !== expenseID;
+      });
+      localStorage.setItem("expenses", JSON.stringify(expensesState.value));
+    }
   };
 
   const updateExpense = (expenseID: number, newExpense: Expense) => {
-    const index = expensesState.value.findIndex((e) => e.id === expenseID);
+    if (expensesState.value) {
+      const index = expensesState.value.findIndex((e) => e.id === expenseID);
 
-    if (index !== -1) {
-      expensesState.value[index] = {
-        ...expensesState.value[index],
-        ...newExpense,
-      };
+      if (index !== -1) {
+        expensesState.value[index] = {
+          ...expensesState.value[index],
+          ...newExpense,
+        };
+      }
+      localStorage.setItem("expenses", JSON.stringify(expensesState.value));
     }
   };
 
