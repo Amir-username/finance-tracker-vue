@@ -4,6 +4,8 @@ import AddExpenseForm from "./components/AddExpenseForm.vue";
 import ExpenseList from "./components/ExpenseList.vue";
 import { useBalanceStore } from "./stores/balanceStore";
 
+const addBalanceInput = ref<number>();
+
 onMounted(() => {
   const localBalance = localStorage.getItem("balance");
 
@@ -21,6 +23,10 @@ onMounted(() => {
 const balanceStore = useBalanceStore();
 
 const isAddFormOpen = ref(false);
+
+const handleAddBalanceSubmit = () => {
+  if (addBalanceInput.value) balanceStore.add(addBalanceInput.value);
+};
 </script>
 
 <template>
@@ -30,9 +36,14 @@ const isAddFormOpen = ref(false);
         <h1>Finance Tracker</h1>
         <a href="#">dashboard</a>
       </div>
-      <h3>
-        balance <span> {{ balanceStore.balance }}$ </span>
-      </h3>
+      <div class="balance-group">
+        <form @submit.prevent="handleAddBalanceSubmit">
+          <input placeholder="enter balance number" type="number" v-model="addBalanceInput" />
+        </form>
+        <h3>
+          balance <span> {{ balanceStore.balance }}$ </span>
+        </h3>
+      </div>
     </nav>
   </header>
   <main>
@@ -92,5 +103,11 @@ main {
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
+}
+
+.balance-group {
+  display: flex;
+  gap: 1ch;
+  align-items: baseline;
 }
 </style>

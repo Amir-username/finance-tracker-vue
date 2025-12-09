@@ -27,10 +27,12 @@ export const useBalanceStore = defineStore("balance", () => {
 
   const add = (amount: number) => {
     if (balance.value) balance.value += amount;
+    localStorage.setItem("balance", JSON.stringify(balance.value));
   };
 
   const spend = (amount: number) => {
     if (balance.value) balance.value -= amount;
+    localStorage.setItem("balance", JSON.stringify(balance.value));
   };
 
   return {
