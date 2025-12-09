@@ -8,7 +8,7 @@ onMounted(() => {
   const localBalance = localStorage.getItem("balance");
 
   if (!localBalance) {
-    localStorage.setItem("balance", JSON.stringify(0));
+    localStorage.setItem("balance", JSON.stringify(200));
   }
 
   const localExpenses = localStorage.getItem("expenses");

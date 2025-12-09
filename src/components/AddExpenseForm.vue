@@ -2,6 +2,7 @@
 import { reactive } from "vue";
 import { useExpensesStore } from "../stores/expensesStore";
 import type { Expense } from "../models/Expense";
+import { useBalanceStore } from "../stores/balanceStore";
 
 defineProps<{ modelValue: boolean }>();
 
@@ -21,8 +22,14 @@ const formData = reactive<{
 
 const expensesStore = useExpensesStore();
 
+const balanceStore = useBalanceStore();
+
 const handleSubmit = () => {
-  if (formData.amount && formData.category) {
+  if (
+    formData.amount &&
+    formData.category &&
+    formData.amount < balanceStore.balance!
+  ) {
     const newExpense: Expense = {
       id: Date.now(),
       amount: formData.amount,
@@ -32,6 +39,7 @@ const handleSubmit = () => {
     };
 
     expensesStore.addExpense(newExpense);
+    balanceStore.spend(newExpense.amount);
 
     formData.category = undefined;
     formData.amount = undefined;
