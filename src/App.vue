@@ -4,30 +4,35 @@ import AddExpenseForm from "./components/AddExpenseForm.vue";
 import ExpenseList from "./components/ExpenseList.vue";
 import { useBalanceStore } from "./stores/balanceStore";
 
-const addBalanceInput = ref<number>();
-
-onMounted(() => {
+function initialBalance() {
   const localBalance = localStorage.getItem("balance");
-
   if (!localBalance) {
-    localStorage.setItem("balance", JSON.stringify(200));
+    localStorage.setItem("balance", JSON.stringify(0));
   }
+}
 
+function initialExpenses() {
   const localExpenses = localStorage.getItem("expenses");
-
   if (!localExpenses) {
     localStorage.setItem("expenses", JSON.stringify([]));
   }
+}
+
+onMounted(() => {
+  initialBalance();
+  initialExpenses();
 });
 
-const balanceStore = useBalanceStore();
+const addBalanceInput = ref<number>();
 
 const isAddFormOpen = ref(false);
 const isAddBalanceFormOpen = ref(false);
 
-const handleAddBalanceSubmit = () => {
+const balanceStore = useBalanceStore();
+
+function handleAddBalanceSubmit() {
   if (addBalanceInput.value) balanceStore.add(addBalanceInput.value);
-};
+}
 </script>
 
 <template>
@@ -47,12 +52,7 @@ const handleAddBalanceSubmit = () => {
         >
           +
         </button>
-        <button
-          v-else
-          @click="isAddBalanceFormOpen = false"
-        >
-          -
-        </button>
+        <button v-else @click="isAddBalanceFormOpen = false">-</button>
 
         <form
           v-show="isAddBalanceFormOpen"
