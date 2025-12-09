@@ -3,6 +3,16 @@ import { reactive } from "vue";
 import { useExpensesStore } from "../stores/expensesStore";
 import type { Expense } from "../models/Expense";
 
+defineProps<{ modelValue: boolean }>();
+
+const emit = defineEmits(["update:modelValue"]);
+
+const close = () => {
+  emit("update:modelValue", false);
+};
+
+defineExpose({ close });
+
 const formData = reactive<{
   category?: string;
   amount?: number;
@@ -26,34 +36,43 @@ const handleSubmit = () => {
     formData.category = undefined;
     formData.amount = undefined;
     formData.description = undefined;
+
+    emit("update:modelValue", false);
   }
 };
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit">
-    <h2>add a new expense</h2>
-    <div class="input-group">
-      <label for="category">category</label>
-      <input id="category" type="text" v-model="formData.category" />
-    </div>
-    <div class="input-group">
-      <label for="amount">amount</label>
-      <input id="amount" type="number" v-model="formData.amount" />
-    </div>
-    <div class="input-group">
-      <label for="description">description</label>
-      <input id="description" type="text" v-model="formData.description" />
-    </div>
-    <button type="submit">Add</button>
-  </form>
+  <div @click.self="close" class="overlay">
+    <form @submit.prevent="handleSubmit">
+      <h2>add a new expense</h2>
+      <div class="input-group">
+        <label for="category">category</label>
+        <input id="category" type="text" v-model="formData.category" />
+      </div>
+      <div class="input-group">
+        <label for="amount">amount</label>
+        <input id="amount" type="number" v-model="formData.amount" />
+      </div>
+      <div class="input-group">
+        <label for="description">description</label>
+        <input id="description" type="text" v-model="formData.description" />
+      </div>
+      <button type="submit">Add</button>
+    </form>
+  </div>
 </template>
 
 <style scoped>
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: grid;
+  place-items: center;
+}
+
 form {
-  position: absolute;
-  left: 35%;
-  top: 25%;
   width: 350px;
   display: grid;
   gap: 1rem;

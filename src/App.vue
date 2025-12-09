@@ -27,7 +27,7 @@ const isAddFormOpen = ref(false);
       <button @click="isAddFormOpen = !isAddFormOpen">add</button>
     </div>
     <ExpenseList />
-    <AddExpenseForm v-show="isAddFormOpen" />
+    <AddExpenseForm v-show="isAddFormOpen" v-model="isAddFormOpen"/>
   </main>
   <footer></footer>
 </template>
