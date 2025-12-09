@@ -34,7 +34,7 @@ const handleSubmit = () => {
       id: Date.now(),
       amount: formData.amount,
       category: formData.category.trim(),
-      date: Date.now(),
+      date: new Date(),
       description: formData.description?.trim(),
     };
 

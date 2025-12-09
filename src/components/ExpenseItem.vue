@@ -16,7 +16,7 @@ const handleUpdateExpense = (expenseID: number, expense: Expense) => {
   const newExpense: Expense = {
     id: expense.id,
     category: expense.category,
-    date: Date.now(),
+    date: new Date(),
     amount: expense.amount + 10,
   };
 
@@ -28,7 +28,7 @@ const handleUpdateExpense = (expenseID: number, expense: Expense) => {
   <li>
     <article>
       <h4>{{ props.expense.category }}</h4>
-      <p>{{ props.expense.date }}</p>
+      <p>{{ props.expense.date.toString().slice(0, 10) }}</p>
       <h2>{{ props.expense.amount }}$</h2>
       <div class="button-group">
         <button
