@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
+import { ref } from "vue";
 
-export const useBalanceStore = defineStore("balance", {
+/*export const useBalanceStore = defineStore("balance", {
   state: () => {
     return { balance: 10 };
   },
@@ -12,4 +13,29 @@ export const useBalanceStore = defineStore("balance", {
       this.balance = this.balance - amount;
     },
   },
+});
+*/
+
+export const useBalanceStore = defineStore("balance", () => {
+  const balanceStorage = localStorage.getItem("balance");
+
+  const balance = ref<number | undefined>(undefined);
+
+  if (balanceStorage) {
+    balance.value = JSON.parse(balanceStorage);
+  }
+
+  const add = (amount: number) => {
+    if (balance.value) balance.value += amount;
+  };
+
+  const spend = (amount: number) => {
+    if (balance.value) balance.value -= amount;
+  };
+
+  return {
+    balance,
+    add,
+    spend,
+  };
 });

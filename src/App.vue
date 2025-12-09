@@ -1,8 +1,16 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import AddExpenseForm from "./components/AddExpenseForm.vue";
 import ExpenseList from "./components/ExpenseList.vue";
 import { useBalanceStore } from "./stores/balanceStore";
+
+onMounted(() => {
+  const localBalance = localStorage.getItem("balance");
+  
+  if (!localBalance) {
+    localStorage.setItem("balance", JSON.stringify(0));
+  }
+});
 
 const balanceStore = useBalanceStore();
 
@@ -27,7 +35,7 @@ const isAddFormOpen = ref(false);
       <button @click="isAddFormOpen = !isAddFormOpen">add</button>
     </div>
     <ExpenseList />
-    <AddExpenseForm v-show="isAddFormOpen" v-model="isAddFormOpen"/>
+    <AddExpenseForm v-show="isAddFormOpen" v-model="isAddFormOpen" />
   </main>
   <footer></footer>
 </template>
