@@ -23,6 +23,7 @@ onMounted(() => {
 const balanceStore = useBalanceStore();
 
 const isAddFormOpen = ref(false);
+const isAddBalanceFormOpen = ref(false);
 
 const handleAddBalanceSubmit = () => {
   if (addBalanceInput.value) balanceStore.add(addBalanceInput.value);
@@ -37,12 +38,32 @@ const handleAddBalanceSubmit = () => {
         <a href="#">dashboard</a>
       </div>
       <div class="balance-group">
-        <form @submit.prevent="handleAddBalanceSubmit">
-          <input placeholder="enter balance number" type="number" v-model="addBalanceInput" />
-        </form>
         <h3>
           balance <span> {{ balanceStore.balance }}$ </span>
         </h3>
+        <button
+          v-if="isAddBalanceFormOpen === false"
+          @click="isAddBalanceFormOpen = true"
+        >
+          +
+        </button>
+        <button
+          v-else
+          @click="isAddBalanceFormOpen = false"
+        >
+          -
+        </button>
+
+        <form
+          v-show="isAddBalanceFormOpen"
+          @submit.prevent="handleAddBalanceSubmit"
+        >
+          <input
+            placeholder="enter balance number"
+            type="number"
+            v-model="addBalanceInput"
+          />
+        </form>
       </div>
     </nav>
   </header>
