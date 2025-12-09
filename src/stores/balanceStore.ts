@@ -1,20 +1,9 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-/*export const useBalanceStore = defineStore("balance", {
-  state: () => {
-    return { balance: 10 };
-  },
-  actions: {
-    add(amount: number) {
-      this.balance = this.balance + amount;
-    },
-    spend(amount: number) {
-      this.balance = this.balance - amount;
-    },
-  },
-});
-*/
+function saveBalance(balance: number) {
+  localStorage.setItem("balance", JSON.stringify(balance));
+}
 
 export const useBalanceStore = defineStore("balance", () => {
   const balanceStorage = localStorage.getItem("balance");
@@ -26,13 +15,17 @@ export const useBalanceStore = defineStore("balance", () => {
   }
 
   const add = (amount: number) => {
-    if (balance.value) balance.value += amount;
-    localStorage.setItem("balance", JSON.stringify(balance.value));
+    if (balance.value) {
+      balance.value += amount;
+      saveBalance(balance.value);
+    }
   };
 
   const spend = (amount: number) => {
-    if (balance.value) balance.value -= amount;
-    localStorage.setItem("balance", JSON.stringify(balance.value));
+    if (balance.value) {
+      balance.value -= amount;
+      saveBalance(balance.value);
+    }
   };
 
   return {
