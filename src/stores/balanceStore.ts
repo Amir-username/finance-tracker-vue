@@ -8,24 +8,22 @@ function saveBalance(balance: number) {
 export const useBalanceStore = defineStore("balance", () => {
   const balanceStorage = localStorage.getItem("balance");
 
-  const balance = ref<number | undefined>(undefined);
+  const balance = ref<number>(0);
 
   if (balanceStorage) {
     balance.value = JSON.parse(balanceStorage);
   }
 
   const add = (amount: number) => {
-    if (balance.value) {
-      balance.value += amount;
-      saveBalance(balance.value);
-    }
+    console.log("sdsdfdfg");
+    balance.value += amount;
+    saveBalance(balance.value);
+    console.log(balanceStorage);
   };
 
   const spend = (amount: number) => {
-    if (balance.value) {
-      balance.value -= amount;
-      saveBalance(balance.value);
-    }
+    balance.value -= amount;
+    saveBalance(balance.value);
   };
 
   return {

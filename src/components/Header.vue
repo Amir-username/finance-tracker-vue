@@ -9,6 +9,7 @@ const isAddBalanceFormOpen = ref(false);
 const balanceStore = useBalanceStore();
 
 function handleAddBalanceSubmit() {
+  console.log(addBalanceInput.value);
   if (addBalanceInput.value) balanceStore.add(addBalanceInput.value);
 }
 </script>
