@@ -29,10 +29,10 @@ const isAddFormOpen = ref(false);
 <template>
   <Header />
   <main>
-    <div class="expenses-list-header">
-      <h3>expenses</h3>
-      <button @click="isAddFormOpen = !isAddFormOpen">add</button>
-    </div>
+    <h3>expenses</h3>
+    <button class="btn-add-expense" @click="isAddFormOpen = !isAddFormOpen">
+      + add expense
+    </button>
     <ExpenseList />
     <AddExpenseForm v-show="isAddFormOpen" v-model="isAddFormOpen" />
   </main>
@@ -40,6 +40,25 @@ const isAddFormOpen = ref(false);
 </template>
 
 <style scoped>
+h3 {
+  padding: 2rem 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+  text-transform: capitalize;
+}
 
-  
+.btn-add-expense {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  padding: 1rem;
+  border-radius: 32px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  font-size: 1rem;
+  text-transform: capitalize;
+  letter-spacing: 0.1ch;
+  font-weight: 600;
+}
 </style>
