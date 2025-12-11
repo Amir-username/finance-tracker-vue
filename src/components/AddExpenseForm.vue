@@ -37,7 +37,7 @@ const handleSubmit = () => {
       date: new Date(),
       description: formData.description?.trim(),
     };
-
+    console.log("added");
     expensesStore.addExpense(newExpense);
     balanceStore.spend(newExpense.amount);
 
@@ -78,10 +78,11 @@ const handleSubmit = () => {
   background: rgba(0, 0, 0, 0.7);
   display: grid;
   place-items: center;
+  padding: 1rem;
 }
 
 form {
-  width: 350px;
+  width: 100%;
   display: grid;
   gap: 1rem;
   padding: 2.5rem 2rem;
@@ -94,6 +95,8 @@ form {
 h2 {
   text-align: center;
   margin: 0;
+  color: var(--primary);
+  text-transform: capitalize;
 }
 
 .input-group {
@@ -102,7 +105,9 @@ h2 {
 }
 
 input {
-  padding: 0.3rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid gray;
 }
 
 button {
@@ -111,5 +116,7 @@ button {
   border-radius: 8px;
   background-color: rgb(239, 239, 239);
   cursor: pointer;
+  background-color: var(--primary);
+  color: white;
 }
 </style>
