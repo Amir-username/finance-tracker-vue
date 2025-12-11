@@ -2,14 +2,14 @@
 import type { Expense } from "../models/Expense";
 import { useExpensesStore } from "../stores/expensesStore";
 
-const props = defineProps<{
+const { expense } = defineProps<{
   expense: Expense;
 }>();
 
-const expensesStore = useExpensesStore();
+const { removeExpense, updateExpense } = useExpensesStore();
 
 const handleDeleteExpense = (expenseID: number) => {
-  expensesStore.removeExpense(expenseID);
+  removeExpense(expenseID);
 };
 
 const handleUpdateExpense = (expenseID: number, expense: Expense) => {
@@ -20,21 +20,18 @@ const handleUpdateExpense = (expenseID: number, expense: Expense) => {
     amount: expense.amount + 10,
   };
 
-  expensesStore.updateExpense(expenseID, newExpense);
+  updateExpense(expenseID, newExpense);
 };
 </script>
 
 <template>
   <li>
     <article>
-      <h4>{{ props.expense.category }}</h4>
-      <p>{{ props.expense.date.toString().slice(0, 10) }}</p>
-      <h2>{{ props.expense.amount }}$</h2>
+      <h4>{{ expense.category }}</h4>
+      <p>{{ expense.date.toString().slice(0, 10) }}</p>
+      <h2>{{ expense.amount }}$</h2>
       <div class="button-group">
-        <button
-          @click="handleDeleteExpense(props.expense.id)"
-          class="btn-delete"
-        >
+        <button @click="handleDeleteExpense(expense.id)" class="btn-delete">
           delete
         </button>
         <button
@@ -58,6 +55,11 @@ article {
   gap: 1rem;
 }
 
+li {
+  flex-shrink: 0;
+  width: 90%;
+}
+
 h2,
 h4 {
   margin: 0;
@@ -75,5 +77,21 @@ h2 {
 .button-group {
   display: flex;
   gap: 1ch;
+}
+
+button {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid rgb(210, 210, 210);
+  border-radius: 6px;
+  background-color: rgb(225, 242, 255);
+  text-transform: capitalize;
+}
+
+.btn-update {
+  color: hsl(0, 0%, 19%);
+}
+
+.btn-delete {
+  color: rgb(110, 24, 9);
 }
 </style>
