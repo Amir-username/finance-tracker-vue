@@ -6,10 +6,10 @@ const { expense } = defineProps<{
   expense: Expense;
 }>();
 
-const { removeExpense, updateExpense } = useExpensesStore();
+const expenseStore = useExpensesStore();
 
 const handleDeleteExpense = (expenseID: number) => {
-  removeExpense(expenseID);
+  expenseStore.removeExpense(expenseID);
 };
 
 const handleUpdateExpense = (expenseID: number, expense: Expense) => {
@@ -20,29 +20,31 @@ const handleUpdateExpense = (expenseID: number, expense: Expense) => {
     amount: expense.amount + 10,
   };
 
-  updateExpense(expenseID, newExpense);
+  expenseStore.updateExpense(expenseID, newExpense);
 };
 </script>
 
 <template>
-  <li>
-    <article>
-      <h4>{{ expense.category }}</h4>
-      <p>{{ expense.date.toString().slice(0, 10) }}</p>
-      <h2>{{ expense.amount }}$</h2>
-      <div class="button-group">
-        <button @click="handleDeleteExpense(expense.id)" class="btn-delete">
-          delete
-        </button>
-        <button
-          @click="handleUpdateExpense(expense.id, expense)"
-          class="btn-update"
-        >
-          update
-        </button>
-      </div>
-    </article>
-  </li>
+  <!-- <RouterLink :to="{ name: 'expenses-detail', params: { id: expense.id } }"> -->
+    <li>
+      <article>
+        <h4>{{ expense.category }}</h4>
+        <p>{{ expense.date.toString().slice(0, 10) }}</p>
+        <h2>{{ expense.amount }}$</h2>
+        <div class="button-group">
+          <button @click="handleDeleteExpense(expense.id)" class="btn-delete">
+            delete
+          </button>
+          <button
+            @click="handleUpdateExpense(expense.id, expense)"
+            class="btn-update"
+          >
+            update
+          </button>
+        </div>
+      </article>
+    </li>
+  <!-- </RouterLink> -->
 </template>
 
 <style scoped>
@@ -72,6 +74,7 @@ h4 {
 
 h2 {
   font-size: 2rem;
+  color: var(--primary)
 }
 
 .button-group {

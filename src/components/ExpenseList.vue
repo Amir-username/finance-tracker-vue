@@ -2,14 +2,14 @@
 import { useExpensesStore } from "../stores/expensesStore";
 import ExpenseItem from "./ExpenseItem.vue";
 
-const { expensesState } = useExpensesStore();
+const expenseStore = useExpensesStore();
 </script>
 
 <template>
   <section>
     <ul>
       <ExpenseItem
-        v-for="expense in expensesState"
+        v-for="expense in expenseStore.expensesState"
         :expense="expense"
         :key="expense.id"
       />

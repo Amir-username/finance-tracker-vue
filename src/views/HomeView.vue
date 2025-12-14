@@ -1,9 +1,28 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import AddExpenseForm from "../components/AddExpenseForm.vue";
 import ExpenseList from "../components/ExpenseList.vue";
 
 const isAddFormOpen = ref(false);
+
+function initialBalance() {
+  const localBalance = localStorage.getItem("balance");
+  if (!localBalance) {
+    localStorage.setItem("balance", JSON.stringify(0));
+  }
+}
+
+function initialExpenses() {
+  const localExpenses = localStorage.getItem("expenses");
+  if (!localExpenses) {
+    localStorage.setItem("expenses", JSON.stringify([]));
+  }
+}
+
+onMounted(() => {
+  initialBalance();
+  initialExpenses();
+});
 </script>
 
 <template>
