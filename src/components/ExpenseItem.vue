@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useRouter } from "vue-router";
 import type { Expense } from "../models/Expense";
 import { useExpensesStore } from "../stores/expensesStore";
 
@@ -7,6 +8,8 @@ const { expense } = defineProps<{
 }>();
 
 const expenseStore = useExpensesStore();
+
+const router = useRouter();
 
 const handleDeleteExpense = (expenseID: number) => {
   expenseStore.removeExpense(expenseID);
@@ -22,29 +25,31 @@ const handleUpdateExpense = (expenseID: number, expense: Expense) => {
 
   expenseStore.updateExpense(expenseID, newExpense);
 };
+
+const handleNavigateDetail = () => {
+  router.push({ name: "expenses-detail", params: { id: expense.id } });
+};
 </script>
 
 <template>
-  <!-- <RouterLink :to="{ name: 'expenses-detail', params: { id: expense.id } }"> -->
-    <li>
-      <article>
-        <h4>{{ expense.category }}</h4>
-        <p>{{ expense.date.toString().slice(0, 10) }}</p>
-        <h2>{{ expense.amount }}$</h2>
-        <div class="button-group">
-          <button @click="handleDeleteExpense(expense.id)" class="btn-delete">
-            delete
-          </button>
-          <button
-            @click="handleUpdateExpense(expense.id, expense)"
-            class="btn-update"
-          >
-            update
-          </button>
-        </div>
-      </article>
-    </li>
-  <!-- </RouterLink> -->
+  <li>
+    <article @click.self="handleNavigateDetail">
+      <h4>{{ expense.category }}</h4>
+      <p>{{ expense.date.toString().slice(0, 10) }}</p>
+      <h2>{{ expense.amount }}$</h2>
+      <div class="button-group">
+        <button @click="handleDeleteExpense(expense.id)" class="btn-delete">
+          delete
+        </button>
+        <button
+          @click="handleUpdateExpense(expense.id, expense)"
+          class="btn-update"
+        >
+          update
+        </button>
+      </div>
+    </article>
+  </li>
 </template>
 
 <style scoped>
@@ -74,7 +79,7 @@ h4 {
 
 h2 {
   font-size: 2rem;
-  color: var(--primary)
+  color: var(--primary);
 }
 
 .button-group {
