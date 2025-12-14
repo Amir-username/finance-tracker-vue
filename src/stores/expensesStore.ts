@@ -45,5 +45,23 @@ export const useExpensesStore = defineStore("expenses", () => {
     }
   };
 
-  return { expensesState, addExpense, removeExpense, updateExpense };
+  const getExpenseByID = (expenseID: number): Expense | undefined => {
+    let findedExpense: Expense | undefined = undefined;
+
+    expensesState.value?.forEach((expense) => {
+      if (expense.id === expenseID) {
+        findedExpense = expense;
+      }
+    });
+
+    return findedExpense;
+  };
+
+  return {
+    expensesState,
+    addExpense,
+    removeExpense,
+    updateExpense,
+    getExpenseByID,
+  };
 });
