@@ -57,11 +57,20 @@ export const useExpensesStore = defineStore("expenses", () => {
     return findedExpense;
   };
 
+  const filterByCategory = (category: string) => {
+    const newExpenses = expensesState.value?.filter((e) => {
+      if (e.category === category) return e;
+    });
+
+    return newExpenses;
+  };
+
   return {
     expensesState,
     addExpense,
     removeExpense,
     updateExpense,
     getExpenseByID,
+    filterByCategory
   };
 });
