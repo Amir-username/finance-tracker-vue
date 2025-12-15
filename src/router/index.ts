@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Homepage from "../views/HomeView.vue";
 import ExpensesDetail from "../views/ExpensesDetailView.vue";
+import ExpensesView from "../views/ExpensesPageView.vue";
 
 const routes = [
   {
@@ -13,6 +14,11 @@ const routes = [
     name: "expenses-detail",
     component: ExpensesDetail,
     props: true,
+  },
+  {
+    path: "/expenses",
+    name: "expenses",
+    component: ExpensesView,
   },
 ];
 
